@@ -27,7 +27,7 @@ app.add_middleware(
 async def search_repository(query: str) -> list[Item]:
     async with httpx.AsyncClient() as client:
         base_url = "https://repository.geologyscience.ru"
-        url = 'https://repository.geologyscience.ru/rest/items/find-by-metadata-field'
+        url = 'https://repository.geologyscience.ru/rest/items/find-by-metadata-field?expand=bitstreams'
         headers = {"Accept": "application/json"}
         metadata_entry = {
             "key": "dc.subject",
@@ -40,12 +40,11 @@ async def search_repository(query: str) -> list[Item]:
         items = []
         
         for element in r.json():
-            url2 = base_url + element["link"] + "/bitstreams"
-            r2 = await client.get(url2, headers=headers)
-            data = r2.json() 
-            if not data:
+            if not element["bitstreams"]:
                 continue
-            item_url = base_url + r2.json()[-1]["retrieveLink"]
+            handle = element["handle"]
+            file = element["bitstreams"][-1]["name"]
+            item_url = f'{base_url}/bitstream/handle/{handle}/{file}'
             item = Item(name=element["name"], source="Repository Geologyscience", url=item_url)
             items.append(item)
     return items
