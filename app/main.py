@@ -34,11 +34,17 @@ async def search_repository(query: str) -> list[Item]:
             "value": query,
             "language": "ru_RU"
         }
+        
         r = await client.post(url, headers=headers, json=metadata_entry, timeout=30)
+        
         items = []
+        
         for element in r.json():
             url2 = base_url + element["link"] + "/bitstreams"
             r2 = await client.get(url2, headers=headers)
+            data = r2.json() 
+            if not data:
+                continue
             item_url = base_url + r2.json()[-1]["retrieveLink"]
             item = Item(name=element["name"], source="Repository Geologyscience", url=item_url)
             items.append(item)
