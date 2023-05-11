@@ -23,7 +23,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
 async def search_repository(query: str) -> list[Item]:
     async with httpx.AsyncClient() as client:
@@ -35,7 +34,7 @@ async def search_repository(query: str) -> list[Item]:
             "value": query,
             "language": "ru_RU"
         }
-        r = await client.post(url, headers=headers, json=metadata_entry)
+        r = await client.post(url, headers=headers, json=metadata_entry, timeout=30)
         items = []
         for element in r.json():
             url2 = base_url + element["link"] + "/bitstreams"
