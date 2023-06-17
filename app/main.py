@@ -132,9 +132,11 @@ async def search_wiki(query: str) -> list[Item]:
         response = await client.get(url)
         items = []
         soup = BeautifulSoup(response.text, 'html.parser')
-        urls =[base_url + url["href"] for url in soup.select(".mw-search-result-heading > a")]
+        urls =[url for url in soup.select(".mw-search-result-heading > a")]
         for url in urls:
-            item = Item(name=url["title"], source="Wiki Geologyscience", url=url["href"])
+            title = url["title"]
+            url = base_url + url["href"]
+            item = Item(name=title, source="Wiki Geologyscience", url=url)
             items.append(item) 
         return items
 
