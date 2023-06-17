@@ -124,6 +124,21 @@ async def search_vsegei(query: str) -> list[Item]:
             items.append(item)
     return items
 
+async def search_wiki(query: str) -> list[Item]:
+    selector = '.mw-search-result-heading > a'
+    async with httpx.AsyncClient() as client:
+        base_url = "http://wiki.geologyscience.ru"
+        url = f'{base_url}/index.php?title=Служебная:Поиск&limit=500&offset=0&ns0=1&search={query}'
+        response = await client.get(url)
+        items = []
+        soup = BeautifulSoup(response.text, 'html.parser')
+        urls =[base_url + url["href"] for url in soup.select(".mw-search-result-heading > a")]
+        for url in urls:
+            item = Item(name=url["title"], source="Wiki Geologyscience", url=url["href"])
+            items.append(item) 
+        return items
+
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -134,4 +149,6 @@ async def search(query: str) -> list[Item]:
     datasgm_items = await search_datasgm(query)
     vsegei_items = await search_vsegei(query)
     geosociety_items = await search_geosociety(query)
-    return repository_items + datasgm_items + vsegei_items + geosociety_items
+    wiki_items = await search_wiki(query)
+
+    return repository_items + datasgm_items + vsegei_items + geosociety_items + wiki_items
