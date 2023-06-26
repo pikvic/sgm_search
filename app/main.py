@@ -150,7 +150,7 @@ async def search(query: str) -> list[Item]:
     repository_items = await search_repository(query)
     datasgm_items = await search_datasgm(query)
     vsegei_items = await search_vsegei(query)
-    geosociety_items = await search_geosociety(query)
+    # geosociety_items = await search_geosociety(query)
     wiki_items = await search_wiki(query)
 
-    return repository_items + datasgm_items + vsegei_items + geosociety_items + wiki_items
+    return repository_items + datasgm_items + vsegei_items + wiki_items
