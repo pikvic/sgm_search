@@ -140,6 +140,17 @@ async def search_wiki(query: str) -> list[Item]:
             items.append(item) 
         return items
 
+async def search_datacite(query: str) -> list[Item]:
+    async with httpx.AsyncClient() as client:
+        url = f'https://api.datacite.org/dois?query={query}'
+        r = await client.get(url)
+        items = []
+        for element in r.json()["data"]:
+            title = element['attributes']['titles'][0]['title']
+            item_url = element['attributes']['url']
+            item = Item(name=title, source="DataCite", url=item_url)
+            items.append(item)
+    return items
 
 @app.get("/")
 async def root():
@@ -152,5 +163,6 @@ async def search(query: str) -> list[Item]:
     vsegei_items = await search_vsegei(query)
     # geosociety_items = await search_geosociety(query)
     wiki_items = await search_wiki(query)
+    datacite_items = await search_datacite(query)
 
-    return repository_items + datasgm_items + vsegei_items + wiki_items
+    return repository_items + datasgm_items + vsegei_items + wiki_items + datacite_items
