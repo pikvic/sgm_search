@@ -1,0 +1,96 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="container" id="container">
+        <div class="row">
+            <div class="col">
+                <a href="{{ url_for('root')}}"><< Назад</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>{{ heading }}</h1>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form>
+                    <div class="mb-3">
+                      <label for="textInput" class="form-label">Поисковая фраза</label>
+                      <input type="text" class="form-control" id="textInput">
+                    </div>
+                    <button id="search_button" type="button" class="btn btn-primary" onclick="search()">Поиск</button>
+                </form>
+            </div>
+        </div>
+        <div class="row" id="spinner">
+            <div class="col">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        let spinner = document.getElementById("spinner");
+        spinner.style.visibility = "hidden";
+        let textInput = document.getElementById("textInput");
+        let container = document.getElementById("container");
+
+        function create_card(name, url) {
+            let root_element = document.createElement("div");
+            root_element.classList.add("row");
+            root_element.classList.add("search_result");
+            let col = document.createElement("div");
+            col.classList.add("col");
+            let a = document.createElement("a");
+            a.href = url;
+            a.target = "_blank";
+            a.innerText = name;
+            col.appendChild(a);
+            root_element.appendChild(col);
+            return root_element;
+        }
+
+
+        function search() {
+
+            let text = {
+                query: textInput.value
+            }
+            let url = window.location;
+            let elements = container.getElementsByClassName("search_result");
+//            for (element in elements) {
+//                container.removeChild(element);
+//            }
+            spinner.style.visibility = "visible";
+            fetch(
+                url,
+                {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(text)
+                }
+            )
+            .then(response => response.json())
+            .then(result => {
+                spinner.style.visibility = "hidden";
+                result.forEach(function(item) {
+                    element = create_card(item.name, item.url);
+                    container.appendChild(element);
+                })
+            });
+        }
+    </script>
+{% endblock content %}

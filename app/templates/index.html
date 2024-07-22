@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+    Коллекция сервисов поиска
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Коллекция сервисов поиска</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('search_get', target='datacite')}}">Поиск по международной библиотеке DataCite</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('search_get', target='datasgm')}}">Поиск по Порталу открытых данных ГГМ РАН</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('search_get', target='vsegei')}}">Поиск по Государственным геологическим картам (ВСЕГЕИ)</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('search_get', target='repository')}}">Поиск по Цифровому репозиторию научных статей по геологии ГГМ РАН</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('search_get', target='wiki')}}">Поиск по Энциклопедии "Геология России" ГГМ РАН</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}    

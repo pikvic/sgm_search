@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import httpx
 import re
@@ -10,6 +12,9 @@ class Item(BaseModel):
     name: str
     source: str
     url: str
+
+class Query(BaseModel):
+    query: str
 
 app = FastAPI()
 
@@ -25,6 +30,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+templates = Jinja2Templates(directory="./app/templates")
 
 async def search_geosociety(query: str) -> list[Item]:
     payload = '''
@@ -152,9 +160,53 @@ async def search_datacite(query: str) -> list[Item]:
             items.append(item)
     return items
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+targets = {
+    "datacite": {
+        "title": "Поиск по международной библиотеке DataCite", 
+        "heading": "Поиск по международной библиотеке DataCite",
+        "func": search_datacite
+    },
+    "wiki": {
+        "title": "Поиск по Энциклопедии \"Геология России\" ГГМ РАН", 
+        "heading": "Поиск по Энциклопедии \"Геология России\" ГГМ РАН",
+        "func": search_wiki
+    },
+    "vsegei": {
+        "title": "Поиск по Государственным геологическим картам (ВСЕГЕИ)", 
+        "heading": "Поиск по Государственным геологическим картам (ВСЕГЕИ)",
+        "func": search_vsegei
+    },
+    "datasgm": {
+        "title": "Поиск по Порталу открытых данных ГГМ РАН", 
+        "heading": "Поиск по Порталу открытых данных ГГМ РАН",
+        "func": search_datasgm
+    },
+    "repository": {
+        "title": "Поиск по Цифровому репозиторию научных статей по геологии ГГМ РАН", 
+        "heading": "Поиск по Цифровому репозиторию научных статей по геологии ГГМ РАН",
+        "func": search_repository
+    },
+}
+
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/search/{target}", response_class=HTMLResponse)
+async def search_get(request: Request, target: str):
+    if target not in targets:
+        return 404
+    title = targets[target]["title"]
+    heading = targets[target]["heading"]
+    return templates.TemplateResponse("search.html", {"request": request, "title": title, "heading": heading})
+
+@app.post("/search/{target}")
+async def search_post(target: str, query: Query) -> list[Item]:
+    if target not in targets:
+        return 404
+    func = targets[target]["func"]
+    items = await func(query.query)
+    return items
 
 @app.get("/search")
 async def search(query: str) -> list[Item]:
