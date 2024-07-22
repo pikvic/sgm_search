@@ -69,9 +69,8 @@
             }
             let url = window.location;
             let elements = container.getElementsByClassName("search_result");
-//            for (element in elements) {
-//                container.removeChild(element);
-//            }
+            while (elements.length > 0) elements[0].remove();
+     
             spinner.style.visibility = "visible";
             fetch(
                 url,
