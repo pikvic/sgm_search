@@ -10,12 +10,357 @@
             
         {% endblock title %}
     </title>
+    {% block geology_head %}
+        <link href="http://fonts.googleapis.com/css?family=Roboto:|Open+Sans:|Roboto:100,200,300,400,500,600,700,800,900|Roboto:700|Open+Sans:700|Roboto:300|Open+Sans:300"
+        rel="stylesheet" type="text/css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px; /* Размер шрифта */
+            position: relative;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            margin: 120px auto 0 auto;
+            max-width: 1920px;
+        }
+
+
+        #site-header-main {
+            font-family: 'Roboto', sans-serif;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            box-shadow: 0 0 3px rgb(0 0 0 / 20%);
+        }
+
+        #site-header-main-inside {
+            height: 60px;
+            max-width: 1920px;
+            display: table;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+
+        #branding {
+            display: block;
+            float: left;
+            height: 60px;
+        }
+
+        #site-title {
+            font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+            font-size: 32.4px;
+            font-weight: 800;
+            position: relative;
+            top: 50%;
+            display: inline-block;
+            float: left;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        #site-title span a span:nth-child(1) {
+            background-color: #3563cf;
+            color: #fff;
+            width: calc(1.4em - 1px);
+            margin-right: .1em;
+            text-align: center;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        #site-title span a:hover span:nth-child(1) {
+            background-color: #ff8b2b;
+        }
+
+        #site-title a span {
+            display: inline-block;
+            padding-right: 1px;
+        }
+
+        #site-title a {
+            display: block;
+            text-decoration: none;
+            color: #3563cf;
+        }
+
+        #site-title a:hover {
+            color: #ff8b2b;
+        }
+
+        #site-header-main, #site-header-main-inside, #access ul li a, #access ul ul, #access::after {
+            background-color: #fff;
+        }
+
+        #site-header-main #branding, #site-header-main #site-title > span > a {
+            -webkit-transition: .25s line-height ease-in-out, .25s height ease-in-out;
+            transition: .25s line-height ease-in-out, .25s height ease-in-out;
+        }
+
+        #access {
+            display: inline;
+            float: right;
+        }
+
+        #access ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        #access ul > li > a {
+            border-top: 2px solid transparent;
+        }
+
+        #access a {
+            display: block;
+            padding: 0 1em;
+            text-decoration: none;
+            line-height: 2.5;
+        }
+
+        #access > div > ul > li, #access > div > ul > li > a {
+            color: #3563cf;
+        }
+
+        #access > div > ul > li:hover > a {
+            background-color: #3563cf;
+            color: #fff;
+            z-index: 1000;
+        }
+
+        #access ul li {
+            display: block;
+            float: left;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        #access li, #access ul li a {
+            -webkit-transition: background .3s ease-in-out, color .3s ease-in-out, .25s line-height ease-in-out, .25s height ease-in-out;
+            transition: background .3s ease-in-out, color .3s ease-in-out, .25s line-height ease-in-out, .25s height ease-in-out;
+        }
+
+        #access div > ul > li > a {
+            line-height: 58px;
+        }
+
+        #access ul > li.current_page_item > a, #access ul > li.current-menu-item > a,
+        #access ul > li.current_page_ancestor > a, #access ul > li.current-menu-ancestor > a, #access .sub-menu {
+            border-top-color: #3563cf;
+        }
+
+        #access ul ul {
+            position: absolute;
+            z-index: -1;
+            clear: both;
+            margin-left: 0;
+            margin-top: -85px;
+            opacity: 0;
+            visibility: hidden;
+            min-width: 125%;
+            border-top: 4px solid transparent;
+            box-shadow: 0 0 0.5em 0.1em rgb(0 0 0 / 5%);
+            -webkit-transition: 0.3s all ease-in;
+            transition: 0.3s all ease-in;
+        }
+
+        #access ul.sub-menu li a, #access ul.children li a {
+            color: #555;
+        }
+
+        #access ul li a {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        #access ul ul li {
+            display: table;
+            position: relative;
+            float: left;
+            clear: both;
+            width: 100%;
+            margin: 0;
+        }
+
+        #access ul ul a, #access ul ul ul a {
+            display: block;
+            float: none;
+            min-width: 150px;
+            width: calc(100% - 2rem);
+        }
+
+        #access a > span {
+            display: block;
+            text-transform: uppercase;
+        }
+
+        #access li:hover > ul {
+            display: block;
+            visibility: visible;
+            margin-top: 0;
+            opacity: 1;
+            -webkit-transition: 0.3s all ease-in;
+            transition: 0.3s all ease-in;
+        }
+
+        #access .sub-menu {
+            border-top-color: #3563cf;
+        }
+
+        .arrow {
+            border: solid #3563cf;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            margin: 0 -13px 4px 5px;
+        }
+
+        #access ul.sub-menu li:hover a {
+            background-color: rgba(85, 85, 85, 0.1);
+        }
+        </style>
+    {% endblock geology_head %}
 </head>
 <body>
+{% block geology_header %}
+
+    <header>
+        <div id="site-header-main" style="position: absolute; z-index: 999;">
+            <div id="site-header-main-inside">
+                <div id="branding">
+                    <div id="site-title">
+                        <span>
+                            <a href="https://geologyscience.ru/" title="" rel="home"><span
+                                    style="transition: color 0s ease 0.05s, background-color 0.05s;">G</span><span
+                                    style="transition: color 0s ease 0.07s, background-color 0.07s;">e</span><span
+                                    style="transition: color 0s ease 0.09s, background-color 0.09s;">o</span><span
+                                    style="transition: color 0s ease 0.11s, background-color 0.11s;">l</span><span
+                                    style="transition: color 0s ease 0.13s, background-color 0.13s;">o</span><span
+                                    style="transition: color 0s ease 0.15s, background-color 0.15s;">g</span><span
+                                    style="transition: color 0s ease 0.17s, background-color 0.17s;">y</span><span
+                                    style="transition: color 0s ease 0.19s, background-color 0.19s;">S</span><span
+                                    style="transition: color 0s ease 0.21s, background-color 0.21s;">c</span><span
+                                    style="transition: color 0s ease 0.23s, background-color 0.23s;">i</span><span
+                                    style="transition: color 0s ease 0.25s, background-color 0.25s;">e</span><span
+                                    style="transition: color 0s ease 0.27s, background-color 0.27s;">n</span><span
+                                    style="transition: color 0s ease 0.29s, background-color 0.29s;">c</span><span
+                                    style="transition: color 0s ease 0.31s, background-color 0.31s;">e</span><span
+                                    style="transition: color 0s ease 0.33s, background-color 0.33s;">.</span><span
+                                    style="transition: color 0s ease 0.35s, background-color 0.35s;">r</span><span
+                                    style="transition: color 0s ease 0.37s, background-color 0.37s;">u</span></a>
+                        </span>
+                    </div>
+                </div>
+
+                <nav id="access" role="navigation" aria-label="Primary Menu" itemscope=""
+                    itemtype="http://schema.org/SiteNavigationElement">
+                    <div>
+                        <ul id="prime_nav" class="">
+                            <li class="menu-item menu-item-has-children">
+                                <a href="#">
+                                    <span>Данные<i class="arrow"></i></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li class="menu-item">
+                                        <a href="https://maps.geologyscience.ru">
+                                            <span>Пространственные данные</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://reports.geologyscience.ru/georock.php">
+                                            <span>Количественные данные</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://data.sgm.ru/">
+                                            <span>Музейные данные</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://sputnik.geologyscience.ru">
+                                            <span>Спутниковые данные</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://repository.geologyscience.ru">
+                                            <span>Научные публикации</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://geologyscience.ru/bd_rosnedra/">
+                                            <span>Базы данных</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://geologyscience.ru/thematicdb/">
+                                            <span>Тематические базы данных</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://geologyscience.ru/conferences/">
+                                            <span>Конференции</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://geologyscience.ru/media/">
+                                            <span>Медиа</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="http://wiki.geologyscience.ru/">
+                                            <span>Энциклопедия</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="https://service.geologyscience.ru">
+                                    <span>Виртуальный ассистент</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="https://geologyscience.ru/gs-news/">
+                                    <span>Новости</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="https://geologyscience.ru/geologists/">
+                                    <span>Геологи</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="https://geologyscience.ru/about/">
+                                    <span>О проекте</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+{% endblock geology_header %}
+
 {% block header %}
-    
-{% endblock header %}    
-{% block content %}
-{% endblock content %}
+{% endblock header %}
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
 </body>
 </html>
